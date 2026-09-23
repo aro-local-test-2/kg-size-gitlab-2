@@ -1,0 +1,38 @@
+# @feature_category: artifact_registry
+#import "../fragments/repository_verdicts.fragment.graphql"
+
+query getArtifactRegistryRepositoryArtifact(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      # Asking the server for the repository puts `format` under the schema's control, and
+      # `format` decides which of these two answers and which shape the artifact renders under.
+      image(id: $artifactId) {
+        id
+        name
+      }
+      package(id: $artifactId) {
+        ... on ArtifactRegistryMavenPackageDetails {
+          id
+          groupId
+          artifactId
+        }
+        ... on ArtifactRegistryNpmPackageDetails {
+          id
+          name
+          scope
+        }
+      }
+      userPermissions {
+        ...ArtifactRegistryRepositoryVerdicts
+      }
+    }
+  }
+}

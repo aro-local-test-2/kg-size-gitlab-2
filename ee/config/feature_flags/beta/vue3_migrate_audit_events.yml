@@ -1,0 +1,10 @@
+---
+name: vue3_migrate_audit_events
+description: Enables Vue 3 in compatibility mode for the Audit Events pages
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/607943
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248560
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/607943
+milestone: '19.3'
+group: group::compliance
+type: beta
+default_enabled: false

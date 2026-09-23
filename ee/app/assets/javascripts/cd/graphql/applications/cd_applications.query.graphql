@@ -1,0 +1,18 @@
+# @feature_category: continuous_delivery
+
+query cdApplications($search: String) {
+  organization {
+    id
+    cdApplications(search: $search) {
+      nodes {
+        id
+        description
+        lastDeployedAt
+        name
+        services {
+          count
+        }
+      }
+    }
+  }
+}

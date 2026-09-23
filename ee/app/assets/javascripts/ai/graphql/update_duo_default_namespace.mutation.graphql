@@ -1,0 +1,13 @@
+# @feature_category: duo_agent_platform
+
+mutation updateDuoDefaultNamespace($input: UserPreferencesUpdateInput!) {
+  userPreferencesUpdate(input: $input) {
+    userPreferences {
+      duoDefaultNamespace {
+        id
+        name
+      }
+    }
+    errors
+  }
+}

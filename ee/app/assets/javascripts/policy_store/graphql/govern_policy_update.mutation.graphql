@@ -1,0 +1,35 @@
+# @feature_category: security_policy_management
+#import "./govern_policy.fragment.graphql"
+
+mutation governPolicyUpdate(
+  $organizationId: OrganizationsOrganizationID!
+  $policyId: Int!
+  $name: String
+  $description: String
+  $triggerType: String
+  $rules: [JSON!]
+  $actions: [JSON!]
+  $policyScope: JSON
+  $mode: String
+  $lifecycleState: String
+) {
+  governPolicyUpdate(
+    input: {
+      organizationId: $organizationId
+      policyId: $policyId
+      name: $name
+      description: $description
+      triggerType: $triggerType
+      rules: $rules
+      actions: $actions
+      policyScope: $policyScope
+      mode: $mode
+      lifecycleState: $lifecycleState
+    }
+  ) {
+    policy {
+      ...GovernPolicy
+    }
+    errors
+  }
+}

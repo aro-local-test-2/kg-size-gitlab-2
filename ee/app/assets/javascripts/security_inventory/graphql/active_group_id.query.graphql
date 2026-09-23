@@ -1,0 +1,6 @@
+# @feature_category: security_asset_inventories
+query ActiveGroupId($fullPath: ID!) {
+  group(fullPath: $fullPath) {
+    id
+  }
+}

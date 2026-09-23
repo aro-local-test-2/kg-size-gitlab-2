@@ -1,0 +1,11 @@
+---
+name: security_inventory_toggleable_columns
+description: Adds a display options drawer to the security inventory for toggling
+  column visibility
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/epics/22124
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251372
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628048
+milestone: '19.4'
+group: group::security controls
+type: beta
+default_enabled: true

@@ -1,0 +1,14 @@
+# @feature_category: security_policy_management
+
+# The field's evaluatedAfter is optional. Requiring it here turns a caller that
+# forgets the reporting window into a query error rather than a silent all-time count.
+query getPolicyEvaluationsCount($id: OrganizationsOrganizationID!, $evaluatedAfter: Time!) {
+  organization(id: $id) {
+    id
+    policyStore {
+      policyEvaluations(evaluatedAfter: $evaluatedAfter, first: 0) {
+        count
+      }
+    }
+  }
+}

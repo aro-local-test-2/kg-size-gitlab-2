@@ -1,0 +1,26 @@
+# @feature_category: duo_code_review
+query getMergeRequestRiskAssessment($projectPath: ID!, $iid: String!) {
+  project(fullPath: $projectPath) {
+    id
+    mergeRequest(iid: $iid) {
+      id
+      riskAssessment {
+        status
+        riskTier
+        confidenceTier
+        rationale
+        stale
+        duoWorkflowId
+        contributingSignals {
+          signal
+          label
+          detail
+        }
+        missingSignals {
+          signal
+          label
+        }
+      }
+    }
+  }
+}

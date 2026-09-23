@@ -1,0 +1,11 @@
+# @feature_category: duo_agent_platform
+
+query getDuoDefaultNamespaceCandidates {
+  duoDefaultNamespaceCandidates(first: 100) {
+    nodes {
+      id
+      name
+      avatarUrl
+    }
+  }
+}

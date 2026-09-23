@@ -1,0 +1,50 @@
+# @feature_category: artifact_registry
+
+query getArtifactRegistryVersion(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+  $versionId: ID!
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      kind
+      package(id: $artifactId) {
+        ... on ArtifactRegistryMavenPackageDetails {
+          id
+          groupId
+          artifactId
+        }
+        ... on ArtifactRegistryNpmPackageDetails {
+          id
+          name
+          scope
+        }
+      }
+      version(id: $versionId, artifactId: $artifactId) {
+        id
+        version
+        createdAt
+        sizeBytes
+        createdBy {
+          id
+          name
+        }
+        project {
+          id
+          name
+          fullPath
+          webPath
+        }
+        gitCommitSha: commitSha
+        statistics {
+          filesCount
+        }
+      }
+    }
+  }
+}

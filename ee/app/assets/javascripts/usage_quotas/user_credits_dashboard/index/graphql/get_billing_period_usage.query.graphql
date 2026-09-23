@@ -1,0 +1,19 @@
+# @feature_category: consumables_cost_management
+
+# Dashboard-level query. It is intentionally NOT parameterized by the
+# date-range/product filters: the billing-period total always reflects the
+# current billing period, and `enabled`/`isOutdatedClient` describe the
+# dashboard itself rather than a filter selection.
+query getUserBillingPeriodUsage($namespacePath: ID!) {
+  currentUser {
+    id
+    creditsUsage(namespacePath: $namespacePath) {
+      enabled
+      isOutdatedClient
+
+      startDate
+      endDate
+      creditsUsed
+    }
+  }
+}

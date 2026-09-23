@@ -1,0 +1,63 @@
+# @feature_category: duo_agent_platform
+#import "../fragments/flow.fragment.graphql"
+
+query getUserAgentFlowInbox(
+  $allAfter: String
+  $allBefore: String
+  $allFirst: Int
+  $allLast: Int
+  $needsDecisionAfter: String
+  $needsDecisionBefore: String
+  $needsDecisionFirst: Int
+  $needsDecisionLast: Int
+  $search: String
+  $sort: DuoWorkflowsWorkflowSort
+  $statusGroup: DuoWorkflowStatusGroup
+  $type: String
+  $updatedAfter: ISO8601DateTime
+) {
+  needsDecision: duoWorkflowWorkflows(
+    first: $needsDecisionFirst
+    after: $needsDecisionAfter
+    last: $needsDecisionLast
+    before: $needsDecisionBefore
+    type: $type
+    search: $search
+    sort: $sort
+    updatedAfter: $updatedAfter
+    statusGroup: AWAITING_INPUT
+  ) {
+    ...InboxConnection
+  }
+  all: duoWorkflowWorkflows(
+    first: $allFirst
+    after: $allAfter
+    last: $allLast
+    before: $allBefore
+    type: $type
+    search: $search
+    sort: $sort
+    statusGroup: $statusGroup
+    updatedAfter: $updatedAfter
+  ) {
+    ...InboxConnection
+  }
+}
+
+fragment InboxConnection on DuoWorkflowConnection {
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+    hasPreviousPage
+  }
+  edges {
+    node {
+      ...FlowFragment
+      aiCatalogItem @gl_introduced(version: "19.4.0") {
+        id
+        name
+      }
+    }
+  }
+}

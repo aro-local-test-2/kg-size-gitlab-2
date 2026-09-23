@@ -1,0 +1,15 @@
+# @feature_category: duo_agent_platform
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getNamespaces($search: String, $first: Int!, $after: String) {
+  adminDuoAvailabilityNamespaces(search: $search, first: $first, after: $after) {
+    nodes {
+      id
+      name
+      fullPath
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}

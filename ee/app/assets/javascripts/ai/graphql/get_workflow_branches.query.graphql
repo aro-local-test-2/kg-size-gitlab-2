@@ -1,0 +1,26 @@
+# @feature_category: duo_agent_platform
+query getWorkflowBranches($workflowId: AiDuoWorkflowsWorkflowID!, $threadTs: String!) {
+  duoWorkflowBranches(workflowId: $workflowId, threadTs: $threadTs) {
+    forkThreadTs
+    messages {
+      content
+      messageType
+      messageSubType
+      status
+      toolInfo
+      timestamp
+      correlationId
+      messageId
+      role
+      threadTs
+      parentTs
+      alternativeCount
+      additionalContext {
+        category
+        id
+        content
+        metadata
+      }
+    }
+  }
+}

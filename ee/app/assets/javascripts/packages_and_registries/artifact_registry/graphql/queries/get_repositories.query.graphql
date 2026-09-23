@@ -1,0 +1,48 @@
+# @feature_category: artifact_registry
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+#import "../fragments/namespace_verdicts.fragment.graphql"
+#import "../fragments/repository_verdicts.fragment.graphql"
+
+query getArtifactRegistryRepositories(
+  $organizationId: OrganizationsOrganizationID!
+  $format: ArtifactRegistryRepositoryFormat
+  $kind: ArtifactRegistryRepositoryKind
+  $sort: ArtifactRegistryRepositorySort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepositories(
+      format: $format
+      kind: $kind
+      sort: $sort
+      first: $first
+      last: $last
+      before: $before
+      after: $after
+    ) {
+      nodes {
+        id @gl_introduced(version: "19.5.0")
+        name
+        format
+        kind
+        visibility
+        downloadsCount
+        sizeBytes
+        lastUpdatedAt
+        userPermissions {
+          ...ArtifactRegistryRepositoryVerdicts
+        }
+      }
+      pageInfo {
+        ...PageInfo
+      }
+      userPermissions {
+        ...ArtifactRegistryNamespaceVerdicts
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "organization_id",
+    "namespace_id",
+    "name",
+    "description",
+    "version",
+    "trigger_type",
+    "rules",
+    "policy_rego",
+    "actions",
+    "policy_scope",
+    "scope_rego",
+    "scope_dimensions",
+    "mode",
+    "lifecycle_state",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "organization_id": {
+      "type": "integer"
+    },
+    "namespace_id": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {
+      "type": "integer"
+    },
+    "trigger_type": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "array"
+    },
+    "policy_rego": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "actions": {
+      "type": "array"
+    },
+    "policy_scope": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "scope_rego": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope_dimensions": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "mode": {
+      "type": "string"
+    },
+    "lifecycle_state": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "updated_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: sync_policies_in_bulk_on_policy_configuration_assign
+description: Sync open merge requests when a security policy configuration is assigned to a project or group
+feature_issue_url: 'https://gitlab.com/gitlab-org/gitlab/-/work_items/600265'
+introduced_by_url: 'https://gitlab.com/gitlab-org/gitlab/-/merge_requests/236296'
+rollout_issue_url: 'https://gitlab.com/gitlab-org/gitlab/-/work_items/600297'
+milestone: '19.4'
+group: group::policy management
+type: gitlab_com_derisk
+default_enabled: false

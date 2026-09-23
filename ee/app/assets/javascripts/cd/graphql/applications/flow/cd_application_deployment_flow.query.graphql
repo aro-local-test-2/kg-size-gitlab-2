@@ -1,0 +1,44 @@
+# @feature_category: continuous_delivery
+
+#import "./cd_rollout_steps.fragment.graphql"
+#import "./cd_definition_steps.fragment.graphql"
+
+query cdApplicationDeploymentFlow($applicationId: CdApplicationID!) {
+  organization {
+    id
+    cdApplication(id: $applicationId) {
+      id
+      name
+      userPermissions {
+        resolveCdRolloutGate
+      }
+      activeRollout: rollouts(statuses: [ACTIVE], first: 1) {
+        nodes {
+          id
+          applicationFlowDefinition {
+            id
+            version
+          }
+          ...CdRolloutSteps
+        }
+      }
+      latestFinishedRollout: rollouts(statuses: [SUCCEEDED, FAILED], first: 1) {
+        nodes {
+          id
+          applicationFlowDefinition {
+            id
+            version
+          }
+          ...CdRolloutSteps
+        }
+      }
+      applicationFlowDefinitions(first: 1) {
+        nodes {
+          id
+          version
+          ...CdDefinitionSteps
+        }
+      }
+    }
+  }
+}

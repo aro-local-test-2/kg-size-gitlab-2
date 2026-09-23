@@ -1,0 +1,11 @@
+fragment ArtifactRegistryRepositoryVerdicts on ArtifactRegistryRepositoryPermissions {
+  readRepository
+  updateRepository
+  deleteRepository
+  createRepositoryUpstream
+  updateRepositoryUpstream
+  deleteRepositoryUpstream
+  readArtifact
+  createArtifact
+  deleteArtifact
+}

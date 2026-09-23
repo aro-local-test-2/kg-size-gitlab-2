@@ -1,0 +1,15 @@
+# @feature_category: continuous_delivery
+
+subscription cdVersionSetUpdated($applicationId: CdApplicationID!) {
+  cdVersionSetUpdated(applicationId: $applicationId) {
+    id
+    status
+    rollouts(first: 20) {
+      nodes {
+        id
+        iid
+        state
+      }
+    }
+  }
+}

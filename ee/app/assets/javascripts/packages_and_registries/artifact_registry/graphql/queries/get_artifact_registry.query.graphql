@@ -1,0 +1,13 @@
+# @feature_category: artifact_registry
+
+query getArtifactRegistry($organizationId: OrganizationsOrganizationID!) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistry {
+      id @gl_introduced(version: "19.5.0")
+      slug
+      status
+      createdAt
+    }
+  }
+}

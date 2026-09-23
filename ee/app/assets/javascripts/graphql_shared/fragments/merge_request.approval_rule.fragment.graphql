@@ -1,0 +1,39 @@
+#import "~/graphql_shared/fragments/user.fragment.graphql"
+
+fragment MergeRequestApprovalRule on MergeRequest {
+  id
+  approvalState {
+    invalidApproversRules {
+      id
+    }
+    rules {
+      id
+      type
+      approved
+      approvalsRequired
+      invalid
+      allowMergeWhenInvalid
+      name
+      patterns
+      section
+      approvedBy {
+        nodes {
+          ...User
+        }
+      }
+      commentedBy {
+        nodes {
+          ...User
+        }
+      }
+      eligibleApprovers {
+        ...User
+      }
+      scanResultPolicies {
+        approvalsRequired
+        name
+        reportType
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+---
+name: audit_ci_variable_value_access
+description: Emits a variable_viewed_graphql audit event for CI/CD variable values
+  returned by a GraphQL query
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602520
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/240847
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/606386
+milestone: '19.4'
+group: group::pipeline authoring
+type: gitlab_com_derisk
+default_enabled: false

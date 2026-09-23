@@ -1,0 +1,21 @@
+- page_title s_('Orbit|Orbit')
+- breadcrumb_title s_('Orbit|Orbit')
+- add_page_specific_style 'page_bundles/orbit'
+
+= render ::Layouts::SettingsBlockComponent.new(s_('Orbit|Orbit settings'),
+  id: 'js-orbit-instance-settings',
+  expanded: expanded_by_default?) do |c|
+  - c.with_description do
+    = s_('Orbit|Configure instance-level settings for Orbit indexing.')
+    = link_to _('Learn more.'), help_page_path('integration/orbit.md'), target: '_blank', rel: 'noopener noreferrer'
+  - c.with_body do
+    = gitlab_ui_form_for @application_setting, url: admin_orbit_path, method: :patch, html: { class: 'fieldset-form' } do |f|
+      = form_errors(@application_setting)
+      .form-group
+        - orbit_settings_checkboxes(f).each do |checkbox|
+          = checkbox
+      = f.submit _('Save changes'), pajamas_button: true
+
+#js-orbit-settings{ data: { router_base: admin_orbit_path,
+                            explore_path: vueroute_dashboard_orbit_path('explore'),
+                            schema_path: vueroute_dashboard_orbit_path('schema') } }

@@ -1,0 +1,31 @@
+# @feature_category: consumables_cost_management
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getUserOverrides(
+  $namespacePath: ID
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+) {
+  subscriptionUsage(namespacePath: $namespacePath) {
+    budgetCaps {
+      userOverrides(first: $first, after: $after, last: $last, before: $before) {
+        nodes {
+          cap
+          capEnabled
+          user {
+            id
+            name
+            username
+            avatarUrl
+            webPath
+          }
+        }
+        pageInfo {
+          ...PageInfo
+        }
+      }
+    }
+  }
+}

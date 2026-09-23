@@ -1,0 +1,20 @@
+#import "./decision.fragment.graphql"
+
+# @feature_category: team_planning
+query workItemDecisions($fullPath: ID!, $iid: String!) {
+  namespace(fullPath: $fullPath) {
+    id
+    workItem(iid: $iid) {
+      id
+      features {
+        decisionLog {
+          decisions {
+            nodes {
+              ...Decision
+            }
+          }
+        }
+      }
+    }
+  }
+}

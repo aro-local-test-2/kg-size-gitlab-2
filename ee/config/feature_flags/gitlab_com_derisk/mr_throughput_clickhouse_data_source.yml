@@ -1,0 +1,9 @@
+---
+name: mr_throughput_clickhouse_data_source
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627208
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253107
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627313
+milestone: '19.4'
+group: group::optimize
+type: gitlab_com_derisk
+default_enabled: false

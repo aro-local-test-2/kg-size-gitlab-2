@@ -1,0 +1,11 @@
+---
+name: recommend_reviewers_flow_v3
+description: Use version 3.0.0 of the recommend reviewers flow, which stores AI-suggested
+  reviewers instead of commenting on the merge request
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254688
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628717
+milestone: '19.4'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

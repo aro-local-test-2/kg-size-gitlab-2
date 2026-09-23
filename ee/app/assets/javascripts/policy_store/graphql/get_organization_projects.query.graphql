@@ -1,0 +1,28 @@
+# @feature_category: security_policy_management
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getPolicyStoreOrganizationProjects(
+  $id: OrganizationsOrganizationID!
+  $search: String
+  $after: String
+  $projectIds: [ID!] = null
+  $withCount: Boolean = false
+) {
+  organization(id: $id) {
+    id
+    projects(search: $search, after: $after, first: 100, ids: $projectIds) {
+      count @include(if: $withCount)
+      nodes {
+        id
+        name
+        fullPath
+        repository {
+          rootRef
+        }
+      }
+      pageInfo {
+        ...PageInfo
+      }
+    }
+  }
+}

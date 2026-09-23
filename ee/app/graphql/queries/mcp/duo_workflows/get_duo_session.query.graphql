@@ -1,0 +1,22 @@
+# @feature_category: mcp_server
+query getDuoSession($workflowId: AiDuoWorkflowsWorkflowID!) {
+  duoWorkflowWorkflows(workflowId: $workflowId) {
+    nodes {
+      id
+      statusName
+      webUrl
+      latestCheckpoint {
+        lastDuoMessage {
+          content
+          role
+          messageType
+        }
+        duoMessages {
+          content
+          role
+          messageType
+        }
+      }
+    }
+  }
+}

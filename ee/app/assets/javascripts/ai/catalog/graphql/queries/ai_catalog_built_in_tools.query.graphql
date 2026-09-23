@@ -1,0 +1,10 @@
+# @feature_category: ai_catalog_curation
+query aiCatalogBuiltInTools {
+  aiCatalogBuiltInTools {
+    nodes {
+      id
+      title
+      description
+    }
+  }
+}

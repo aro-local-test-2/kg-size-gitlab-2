@@ -1,0 +1,7 @@
+# @feature_category: ai_catalog_curation
+mutation deleteAiCatalogItemConsumer($id: AiCatalogItemConsumerID!) {
+  aiCatalogItemConsumerDelete(input: { id: $id }) {
+    errors
+    success
+  }
+}

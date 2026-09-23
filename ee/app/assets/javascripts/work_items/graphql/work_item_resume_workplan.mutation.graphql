@@ -1,0 +1,10 @@
+# @feature_category: team_planning
+mutation workItemResumeWorkplan($input: WorkItemResumeWorkplanInput!) {
+  workItemResumeWorkplan(input: $input) {
+    workflow {
+      id
+      status
+    }
+    errors
+  }
+}

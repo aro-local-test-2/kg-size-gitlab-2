@@ -1,0 +1,21 @@
+# @feature_category: security_policy_management
+
+query getPolicyStoreCatalogs($id: OrganizationsOrganizationID!) {
+  organization(id: $id) {
+    id
+    policyStore {
+      triggers {
+        id
+        name
+      }
+      rules {
+        id
+        name
+      }
+      actions {
+        id
+        name
+      }
+    }
+  }
+}

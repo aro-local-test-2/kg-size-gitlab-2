@@ -1,0 +1,8 @@
+# @feature_category: security_testing_configuration
+mutation SecurityScanProfileDelete($input: SecurityScanProfileDeleteInput!) {
+  securityScanProfileDelete(input: $input) {
+    clientMutationId
+    errors
+    deletedScanProfileId
+  }
+}

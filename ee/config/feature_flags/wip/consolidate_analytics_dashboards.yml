@@ -1,0 +1,10 @@
+---
+name: consolidate_analytics_dashboards
+description: "Renders the explore analytics dashboards app on group and project analytics dashboards pages"
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/623417
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252064
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/623802
+milestone: '19.4'
+group: group::optimize
+type: wip
+default_enabled: false

@@ -1,0 +1,20 @@
+# @feature_category: duo_agent_platform
+#import "./duo_agent_session.fragment.graphql"
+
+subscription duoAgentSessionsOnWorkItemUpdated($id: WorkItemID!, $first: Int = 20) {
+  workItemUpdated(workItemId: $id) {
+    id
+    features {
+      aiSession {
+        duoWorkflows(first: $first) {
+          pageInfo {
+            hasNextPage
+          }
+          nodes {
+            ...DuoAgentSession
+          }
+        }
+      }
+    }
+  }
+}

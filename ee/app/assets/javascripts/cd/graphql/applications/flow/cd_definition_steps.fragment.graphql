@@ -1,0 +1,24 @@
+# @feature_category: continuous_delivery
+
+fragment CdDefinitionSteps on CdApplicationFlowDefinition {
+  id
+  definitionSteps {
+    path
+    stepType
+    name
+    params
+    environment {
+      id
+      name
+    }
+    steps {
+      stepType
+      name
+      params
+      environment {
+        id
+        name
+      }
+    }
+  }
+}

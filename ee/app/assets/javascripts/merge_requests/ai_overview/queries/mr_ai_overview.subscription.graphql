@@ -1,0 +1,10 @@
+#import "./mr_ai_overview_fields.fragment.graphql"
+
+# @feature_category: code_review_workflow
+subscription mrAiOverviewMergeStatus($issuableId: IssuableID!) {
+  mergeRequestMergeStatusUpdated(issuableId: $issuableId) {
+    ... on MergeRequest {
+      ...MrAiOverviewFields
+    }
+  }
+}

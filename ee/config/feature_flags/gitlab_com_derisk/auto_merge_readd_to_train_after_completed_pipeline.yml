@@ -1,0 +1,10 @@
+---
+name: auto_merge_readd_to_train_after_completed_pipeline
+description: Offers the merge train strategy, and lets the add-to-merge-train-when-checks-pass strategy complete, when a merge request's head pipeline is a finished merge train pipeline, which cannot be retried
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/627635
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253707
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/627754
+milestone: '19.4'
+group: group::pipeline execution
+type: gitlab_com_derisk
+default_enabled: false

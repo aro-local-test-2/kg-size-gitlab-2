@@ -1,0 +1,13 @@
+# @feature_category: ai_abstraction_layer
+query getVerificationFeatureSettings {
+  aiFeatureSettings {
+    nodes {
+      feature
+      provider
+      selfHostedModel {
+        id
+        name
+      }
+    }
+  }
+}

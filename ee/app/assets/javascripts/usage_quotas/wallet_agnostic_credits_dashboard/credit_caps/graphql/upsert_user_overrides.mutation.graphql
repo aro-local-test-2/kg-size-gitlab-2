@@ -1,0 +1,16 @@
+# @feature_category: consumables_cost_management
+mutation upsertUserBudgetCapOverrides(
+  $overrides: [BudgetCapUserOverrideInput!]!
+  $namespacePath: String
+) {
+  upsertUserBudgetCapOverrides(input: { overrides: $overrides, namespacePath: $namespacePath }) {
+    userOverrides {
+      cap
+      capEnabled
+      user {
+        id
+      }
+    }
+    errors
+  }
+}

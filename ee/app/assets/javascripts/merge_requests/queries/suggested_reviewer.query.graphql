@@ -1,0 +1,25 @@
+# @feature_category: code_review_workflow
+#import "~/graphql_shared/fragments/user.fragment.graphql"
+
+query suggestedReviewers($projectPath: ID!, $iid: String!) {
+  project(fullPath: $projectPath) {
+    id
+    mergeRequest(iid: $iid) {
+      id
+      aiSuggestedReviewers {
+        nodes {
+          id
+          user {
+            ...User
+          }
+          approvalRule {
+            id
+            name
+            type
+          }
+          reason
+        }
+      }
+    }
+  }
+}

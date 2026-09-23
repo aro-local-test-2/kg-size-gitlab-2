@@ -1,0 +1,22 @@
+# @feature_category: artifact_registry
+
+mutation createArtifactRegistryRepository($input: ArtifactRegistryRepositoryCreateInput!) {
+  createRepository: artifactRegistryRepositoryCreate(input: $input) {
+    repository {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      kind
+      visibility
+      description
+      settings {
+        url
+        cacheValidityHours
+        metadataCacheValidityHours
+        lastHealthStatus
+        lastHealthCheckedAt
+      }
+    }
+    errors
+  }
+}

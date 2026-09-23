@@ -1,0 +1,13 @@
+#import "./mr_ai_overview_fields.fragment.graphql"
+
+# @feature_category: code_review_workflow
+query mrAiOverview($projectPath: ID!, $iid: String!) {
+  project(fullPath: $projectPath) {
+    id
+    mergeRequest(iid: $iid) {
+      ...MrAiOverviewFields
+      iid
+      webPath
+    }
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: dap_schema_auto_tool_choice
+description: Binds Duo Agent Platform response schemas with tool_choice=auto instead of any.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/627566
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254206
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628102
+milestone: '19.4'
+group: group::agent execution
+type: experiment
+default_enabled: false

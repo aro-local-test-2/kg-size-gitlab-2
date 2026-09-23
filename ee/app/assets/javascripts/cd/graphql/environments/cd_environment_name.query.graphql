@@ -1,0 +1,11 @@
+# @feature_category: continuous_delivery
+
+query cdEnvironmentName($id: CdEnvironmentID!) {
+  organization {
+    id
+    cdEnvironment(id: $id) {
+      id
+      name
+    }
+  }
+}

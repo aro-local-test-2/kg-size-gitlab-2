@@ -1,0 +1,29 @@
+# @feature_category: artifact_registry
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getArtifactRegistryUpstreamRepositoryCandidates(
+  $organizationId: OrganizationsOrganizationID!
+  $kinds: [ArtifactRegistryRepositoryKind!]
+  $formats: [ArtifactRegistryRepositoryFormat!]
+  $first: Int
+  $after: String
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepositories(kinds: $kinds, formats: $formats, first: $first, after: $after) {
+      nodes {
+        id @gl_introduced(version: "19.5.0")
+        name
+        format
+        kind
+        sizeBytes
+        settings {
+          url
+        }
+      }
+      pageInfo {
+        ...PageInfo
+      }
+    }
+  }
+}

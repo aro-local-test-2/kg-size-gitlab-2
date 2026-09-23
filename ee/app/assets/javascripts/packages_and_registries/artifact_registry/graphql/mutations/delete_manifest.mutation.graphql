@@ -1,0 +1,7 @@
+# @feature_category: artifact_registry
+
+mutation deleteArtifactRegistryManifest($input: ArtifactRegistryManifestDeleteInput!) {
+  deleteManifest: artifactRegistryManifestDelete(input: $input) {
+    errors
+  }
+}

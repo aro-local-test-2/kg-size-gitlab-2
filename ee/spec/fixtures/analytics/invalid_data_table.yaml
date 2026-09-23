@@ -1,0 +1,13 @@
+---
+version: 1
+type: DataTable
+slug: invalid_data_table
+data:
+  type: value_stream
+  query: {}
+options:
+  fields:
+    - key: 'good'
+      thAttr: 'bad'
+      tdAttr: 'BAD'
+    - key: '_unsupported.key'

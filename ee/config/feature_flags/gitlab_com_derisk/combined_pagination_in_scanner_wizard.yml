@@ -1,0 +1,10 @@
+---
+name: combined_pagination_in_scanner_wizard
+description: Combine subgroups and projects into a single paginated list in the enable scanners wizard select step.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602374
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/244267
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605583
+milestone: '19.4'
+group: group::security controls
+type: gitlab_com_derisk
+default_enabled: false

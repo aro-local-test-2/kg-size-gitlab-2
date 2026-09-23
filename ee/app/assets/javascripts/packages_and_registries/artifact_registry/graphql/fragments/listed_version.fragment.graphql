@@ -1,0 +1,18 @@
+fragment ArtifactRegistryListedVersion on ArtifactRegistryVersion {
+  id
+  version
+  distTags
+  sizeBytes
+  createdAt
+  createdBy {
+    id
+    name
+  }
+  project {
+    id
+    name
+    fullPath
+    webPath
+  }
+  gitCommitSha: commitSha
+}

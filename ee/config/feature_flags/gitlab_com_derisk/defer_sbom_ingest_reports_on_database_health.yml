@@ -1,0 +1,10 @@
+---
+name: defer_sbom_ingest_reports_on_database_health
+description: Defers SBOM report ingestion when sec database health signals indicate high load
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254955
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628675
+milestone: '19.4'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

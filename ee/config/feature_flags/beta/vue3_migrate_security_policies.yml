@@ -1,0 +1,10 @@
+---
+name: vue3_migrate_security_policies
+description: Enables Vue 3 in compatibility mode for the group and project security policies list and policy editor pages.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629193
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255755
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629193
+milestone: '19.4'
+group: group::security policies
+type: beta
+default_enabled: false

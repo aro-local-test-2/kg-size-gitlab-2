@@ -1,0 +1,13 @@
+# @feature_category: artifact_registry
+
+mutation activateArtifactRegistry($input: ArtifactRegistryActivateInput!) {
+  activateRegistry: artifactRegistryActivate(input: $input) {
+    registry {
+      id @gl_introduced(version: "19.5.0")
+      slug
+      status
+      createdAt
+    }
+    errors
+  }
+}

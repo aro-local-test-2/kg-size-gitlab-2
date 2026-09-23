@@ -1,0 +1,7 @@
+# @feature_category: ai_catalog_curation
+mutation aiCatalogItemStar($input: AiCatalogItemStarInput!) {
+  aiCatalogItemStar(input: $input) {
+    starCount
+    errors
+  }
+}

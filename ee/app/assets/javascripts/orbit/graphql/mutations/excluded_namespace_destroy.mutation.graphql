@@ -1,0 +1,11 @@
+# @feature_category: knowledge_graph
+mutation knowledgeGraphExcludedNamespaceDestroy(
+  $input: KnowledgeGraphExcludedNamespaceDestroyInput!
+) {
+  knowledgeGraphExcludedNamespaceDestroy(input: $input) {
+    group {
+      id
+    }
+    errors
+  }
+}

@@ -1,0 +1,40 @@
+# @feature_category: vulnerability_management
+query groupMttrOverTime(
+  $fullPath: ID!
+  $projectId: [ID!]
+  $reportType: [VulnerabilityReportType!]
+  $startDate: ISO8601Date!
+  $endDate: ISO8601Date!
+  $severity: [VulnerabilitySeverity!]
+  $securityAttributesFilters: [AttributeFilterInput!]
+) {
+  namespace: group(fullPath: $fullPath) {
+    id
+    securityMetrics(
+      projectId: $projectId
+      reportType: $reportType
+      securityAttributesFilters: $securityAttributesFilters
+    ) {
+      __typename
+      mttrOverTime(startDate: $startDate, endDate: $endDate, severity: $severity) @client {
+        startDate
+        endDate
+        sumDays
+        count
+        mttr
+        bySeverity {
+          severity
+          sumDays
+          count
+          mttr
+        }
+        byReportType {
+          reportType
+          sumDays
+          count
+          mttr
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,417 @@
+---
+title: "Frontend integration tests for the AI GitLab Duo Panel"
+---
+
+# Frontend integration tests for the AI GitLab Duo Panel
+
+## What these tests are, and when to write one
+
+These specs mount the real GitLab Duo sidebar panel and intercept GraphQL
+with Mock Service Worker. Write one of these when the behavior you care about spans more than a
+single component. For example, rendering GitLab Markdown blocks,
+navigating between sidebar panels, sending a prompt, approving a tool, etc.
+
+MSW serves the GraphQL layer here, not the websocket, so this suite implements
+a websocket mock in `test_support/websocket_mock.js` to simulate message streaming.
+
+## Layout
+
+```
+ai_duo_panel/
+├── README.md
+├── *_spec.js                    panel specs (navigation rail, blocked state, thread history, ...)
+├── duo_agentic_chat/
+│   └── *_spec.js                agentic chat specs (streaming, tool calls, model selection, ...)
+└── test_support/
+    ├── api_handlers.js          GraphQL handlers + generated fixtures
+    ├── websocket_mock.js        fake WebSocket transport + chat log builders
+    ├── test_setup.js            mount helpers, DOM finders, per test setup/teardown
+    ├── fixture_variants/        named response shapes, one file per query
+    └── websocket_mock_spec.js
+```
+
+Top level specs cover the panel shell: the navigation rail, routing between
+chat modes, the blocked/no-namespace empty states, thread history. Specs
+under `duo_agentic_chat/` cover the agentic chat experience itself: sending a
+prompt, streaming a reply, tool calls and approvals, model selection, `GLQL`
+rendering.
+
+## Running them
+
+```
+yarn jest:integration <path>
+```
+
+## Walkthrough of a full example
+
+The following example demonstrates the shape every spec follows. You should
+read it top to bottom before continuing to the next sections:
+
+```javascript
+import { waitFor } from '@testing-library/vue';
+import { installDuoAIPanelHandlers } from '../test_support/api_handlers';
+import {
+  PROJECT_ID,
+  findSubmitButton,
+  mountDuoAgenticChatStateManager,
+  sendPrompt,
+  setupDuoChatTest,
+  teardownDuoChatTest,
+} from '../test_support/test_setup';
+import {
+  agentLogEntry,
+  pushCheckpoint,
+  userLogEntry,
+  waitForSocket,
+} from '../test_support/websocket_mock';
+
+const GOAL = 'Show me a GLQL view of my issues';
+
+describe('Duo Agentic Chat | rendering a GLQL view from a streamed message', () => {
+  beforeEach(() => {
+    setupDuoChatTest();
+    installDuoAIPanelHandlers();
+  });
+
+  afterEach(() => teardownDuoChatTest());
+
+  it('mounts the GLQL facade from the streamed assistant message', async () => {
+    mountDuoAgenticChatStateManager({ propsData: { projectId: PROJECT_ID } });
+
+    await waitFor(() => {
+      expect(findSubmitButton()).not.toBe(null);
+    });
+
+    sendPrompt(GOAL);
+    await waitForSocket();
+
+    await pushCheckpoint(
+      [
+        userLogEntry({ id: 'msg-user-1', content: GOAL }),
+        agentLogEntry({ id: 'msg-agent-1', content: '...markdown reply...' }),
+      ],
+      { goal: GOAL },
+    );
+
+    await waitFor(() => {
+      expect(document.querySelector('[data-testid="glql-facade"]')).not.toBeNull();
+    });
+  });
+});
+```
+
+Step by step:
+
+1. `setupDuoChatTest()` fakes the websocket and clears panel storage before
+   the component tree exists.
+2. `installDuoAIPanelHandlers()` wires up `MSW` to serve every generated
+   fixture.
+3. `mountDuoAgenticChatStateManager` mounts the chat, then the test waits
+   for the submit button, because the composer is disabled until the
+   initial queries resolve.
+4. `sendPrompt(GOAL)` submits the prompt, which opens the websocket. The
+   test immediately awaits `waitForSocket()` before pushing anything into
+   the stream.
+5. `pushCheckpoint` pushes a workflow checkpoint through the web socket stream
+   and the test asserts against rendered DOM,
+   waiting for text/markup to appear rather than asserting synchronously.
+6. `teardownDuoChatTest()` cleans everything up afterwards.
+
+## The setup trio
+
+Every spec in this directory uses the same three calls:
+
+```javascript
+beforeEach(() => {
+  setupDuoChatTest();                 // fakes the websocket, clears panel storage
+  installDuoAIPanelHandlers();        // installs the GraphQL handlers
+});
+
+afterEach(() => teardownDuoChatTest()); // destroys wrappers, terminates the stream, restores WebSocket
+```
+
+`setupDuoChatTest({ chatMode })` takes an optional chat mode, used by the
+classic chat specs (`classic_chat_navigation_spec.js` and similar).
+
+`teardownDuoChatTest()` is not optional and not just tidiness. The stream
+manager keeps its worker, subscribers, and buffer in module level state.
+That state outlives an unmounted component. If you skip teardown, the next
+test in the file inherits the previous test's state which causes unpredictable
+behavior.
+
+## Fixtures: why they're generated, not hand written
+
+GraphQL responses come from fixtures generated by running the real queries
+against the real API in RSpec. They land in:
+
+```
+tmp/tests/frontend/fixtures-ee/graphql/ai_duo_panel/integration/
+```
+
+Regenerate them with:
+
+```
+bundle exec rspec ee/spec/frontend/fixtures/ai_duo_panel_integration.rb
+```
+
+Do not run `bin/rake frontend:fixtures` to do this. It deletes the entire
+fixture root, not just this directory.
+
+The rule for this suite: any mocked response that can come from a generated
+fixture must come from one. A hand written mock drifts from the real
+schema silently. A generated one breaks loudly, with a clear error, the
+moment the schema changes underneath it. That loud failure is the main
+reason this suite exists.
+
+Every operation, queries and mutations alike, is served from its generated
+fixture. Nothing in the handler decides what an operation returns. Picking a
+different recorded shape is the fixture variants' job, covered later.
+
+An operation with no fixture is not silently mocked, it is unhandled, and the
+suite-wide `afterAll` fails the whole file with "missing graphql handlers for
+operations". `chat` is in that position on purpose: no spec sends a
+classic-surface prompt, so there is nothing to record it against. Add the
+fixture alongside the spec that needs it.
+
+## installDuoAIPanelHandlers
+
+```
+installDuoAIPanelHandlers()
+```
+
+Exported from `test_support/api_handlers`. It takes no arguments and installs
+every generated fixture as a handler. The handlers hold no state. The shape
+an operation returns is chosen with `setQueryVariant`, described next.
+
+The handlers do not model the backend writing something and reading it back.
+A workflow the client creates does not then appear in the thread list,
+because that is the backend persisting it, which these tests do not run.
+Assert the two halves the panel actually owns instead: that the create
+mutation went out with the right variables (`lastRequestVariables`), and
+that the list renders the threads the server returned.
+
+## Varying a response shape
+
+Don't add a handler, or edit one, to make an operation return a different
+shape. Declare the shape as a named fixture variant instead.
+
+Variants for this suite live in `test_support/fixture_variants/`, one file
+per query. Each file calls `defineFixtureVariants` with a `BASE` (the shape
+the generated fixture returns by default) plus one named variant per
+alternative shape.
+
+A spec picks one with `setQueryVariant`, imported from
+`ee_jest/integration/helpers/setup_utils`. It resets to `BASE`
+automatically after each test, so there's nothing to clean up.
+
+Five queries are registered today:
+
+- `getUserWorkflows`: `BASE`, `WITH_ARCHIVED`, `TWO_THREADS`
+- `getWorkflowLatestCheckpoint`: `BASE`, `ACTIVE`, `ARCHIVED`, `FIRST_THREAD`,
+  `SECOND_THREAD`, `WITH_CONTEXT`
+- `getAiChatAvailableModels`: `BASE`, `UNPINNED`
+- `getAiMessagesWithThread`: `BASE`, `EMPTY`
+- `getDuoDefaultNamespaceCandidates`: `BASE`, `EMPTY`
+
+The variant `query` is the wire operation name, which is what the `.graphql`
+file declares. Keep that name the camelCase of the fixture filename and the
+blanket fixture handler serves the operation on its own, with no handler entry
+to write.
+
+For `getAiChatAvailableModels`, `BASE` is the pinned dropdown, because
+that's what the fixture generator records. The unpinned case is the one
+that needs a variant.
+
+`yarn integration:variants` writes a list of every registered query and its variant
+keys to `tmp/tests/frontend/integration_variants.manifest.json`. Read that to see
+what already exists. It's regenerated on demand and not committed.
+
+`setQueryVariant` takes the query constant (the variant file's default export,
+re-exported from `api_handlers`) and returns one method per variant key, so an
+unknown key is unspellable and autocomplete lists this query's variants:
+
+```javascript
+import { setQueryVariant } from 'ee_jest/integration/helpers/setup_utils';
+import { userWorkflowsVariants } from './test_support/api_handlers';
+
+it('shows the archived thread as inactive', () => {
+  setQueryVariant(userWorkflowsVariants).withArchived();
+  // ... mount and assert
+});
+```
+
+## Reading fixture values in a spec
+
+Never hardcode an id or a title that only exists because of how a fixture
+happened to be generated. Read it from the fixture instead, through the
+accessors `api_handlers` exports.
+
+The accessors are grouped as one exported object per recorded fixture file,
+named after that fixture. This way a call site names the fixture its
+expected value came from, so mock data maps back to a fixture without
+guessing, and drilling into a response shape lives in `api_handlers` rather
+than being repeated across specs. For example,
+`getUserWorkflowsWithArchived` is
+`get_user_workflows_with_archived.query.graphql.json`, the `WITH_ARCHIVED`
+variant of the `getUserWorkflows` query.
+
+Each object holds one or more functions returning a slice of the response.
+Call one inside the example that needs it and a stale fixture fails that
+example alone; most specs read theirs at module scope instead, which is
+fine, but then the whole file fails at import. Either way the error names
+the fixture and how to regenerate it:
+
+```
+getUserWorkflows.threads()
+getUserWorkflowsWithArchived.archivedThread()
+getUserWorkflowsWithArchived.activeThread()
+getWorkflowLatestCheckpoint.workflow()
+getWorkflowLatestCheckpoint.messages()
+getWorkflowLatestCheckpointFirstThread.workflow()
+getWorkflowLatestCheckpointFirstThread.messages()
+getWorkflowLatestCheckpointSecondThread.workflow()
+getWorkflowLatestCheckpointSecondThread.messages()
+getWorkflowLatestCheckpointWithContext.workflow()
+getWorkflowLatestCheckpointWithContext.messages()
+getAiConversationThreads.threads()
+getAiMessagesWithThread.messages()
+getConfiguredAgents.agents()
+getFoundationalChatAgents.agents()
+getDuoDefaultNamespaceCandidates.namespaces()
+getAiChatAvailableModelsUnpinned.models()
+getRuleContent.project()
+```
+
+A spec reads one of these directly, for example
+`getUserWorkflowsWithArchived.archivedThread().title`.
+
+There is no generic fixture reader. Reading a fixture that has no accessor
+yet means adding one, named after its fixture file the same way.
+
+Two more worth knowing:
+
+- A conversation that already exists when the test starts is selected with
+  `setQueryVariant(workflowLatestCheckpointVariants).<variant>()`. There are five captures:
+  `ACTIVE` (the default conversation), `ARCHIVED`, `FIRST_THREAD`,
+  `SECOND_THREAD`, and `WITH_CONTEXT` for a turn that already carries injected
+  context. A conversation the test creates itself, by sending a prompt, needs no
+  variant: `createAiDuoWorkflow` registers it, and its replies arrive over the
+  websocket rather than this query.
+
+  **The variant ignores `workflowId`.** While one is active the handler answers
+  every id with that conversation, so a test that opens more than one thread
+  switches variant between them, and the proof that the app opened the thread the
+  user clicked is the id it asked for -- assert that with
+  `lastRequestVariables('getWorkflowLatestCheckpoint')`. Inferring it from the
+  rendered text does not work: the variant renders the same conversation whichever
+  thread was clicked.
+- `lastRequestVariables(operationName)`, from
+  `ee_jest/integration/core/operation_helpers`, returns the variables an
+  operation was last called with, and throws naming the operations that did fire
+  if it was never called.
+
+## Mounting
+
+From `test_support/test_setup`:
+
+- `mountAISidebar({ chatConfiguration, propsData })` mounts the whole
+  sidebar: navigation rail, router, and chat together. Use this for
+  anything keyed off the route, or anything that depends on the rail being
+  present.
+- `mountDuoAgenticChatStateManager({ propsData, provide })` mounts just the
+  chat state manager. It's cheaper, and it's enough for anything you're
+  asserting inside `chat-component`.
+- `buildChatConfiguration({ defaultProps })` and
+  `buildClassicChatConfiguration({ defaultProps })` build the configuration object
+  these mounts need. They mirror the production wiring in
+  `ee/app/assets/javascripts/ai/init_duo_panel.js`. **Watch out** leave out
+  `defaultNamespaceSelected` and the panel renders a "select a namespace"
+  empty state instead of the panel content you're trying to test, which
+  quietly masks every other assertion in the test.
+
+`mountAISidebar` and `mountDuoAgenticChatStateManager` both wrap `fullMount`
+from the shared `test_helpers.js`, so the general integration-suite rule — mount with
+`fullMount` and the real `apolloProvider` — still applies here.
+
+## Finders
+
+`test_setup.js` also exports DOM finders (`findSubmitButton`,
+`findChatMessages`, `findThreadBoxWithText`, `findAgentToggle`, and more)
+and interactions (`sendPrompt`, `openChatTab`, `approveTool`, and more).
+Finders return real DOM nodes or `null`, never wrapper instances, so your
+assertions run against what actually rendered.
+
+## Websocket
+
+The `test_support/websocket_mock` module provides a mock websocket
+client. A socket does not exist until a prompt is sent so the sequence is always:
+
+1. Send the prompt
+1. `await waitForSocket()`
+1. Then push checkpoints. Pushing a checkpoint before the socket exists
+   is a common way to make a test hang.
+
+Log entry builders:
+
+```
+userLogEntry({ id, content })
+agentLogEntry({ id, content })
+toolLogEntry({ id, name, args, content })
+toolRequestLogEntry({ id, name, args, content })
+```
+
+`pushCheckpoint(uiChatLog, { status, goal })` pushes a frame in the same
+envelope the workflow service sends over the wire. `status` defaults to
+`INPUT_REQUIRED`, which is the state the workflow service leaves a finished
+turn in, and it's also what re-enables the composer.
+
+Pass `RUNNING` explicitly for a mid-stream checkpoint where
+the composer should stay disabled.
+
+Assertion helpers: `waitForSocket()`, `lastWebsocketParams()`,
+`lastStartRequest()`, `lastAdditionalContext()`, `getCloseCount()`,
+`getSockets()`.
+
+One gotcha worth remembering: every log entry needs non-empty `content`.
+GitLab Duo Chat silently drops any message whose content is empty.
+A message with blank content does not show up, with no error to point you at why.
+
+## Adding a new fixture
+
+Add an example to `ee/spec/frontend/fixtures/ai_duo_panel_integration.rb`,
+then run the generator:
+
+```
+bundle exec rspec ee/spec/frontend/fixtures/ai_duo_panel_integration.rb
+```
+
+The handler in `api_handlers.js` picks up new fixtures automatically:
+fixtures are loaded by filename and keyed by the camelCased operation name.
+Make sure the filename actually matches the GraphQL operation name, not the
+name of the source `.query.graphql` file. Those two names differ sometimes,
+and when they do, the filename is the one that matters here.
+
+## Troubleshooting
+
+**"Test suite is missing graphql handlers for operations: X"**
+Nothing served operation X. Either the spec forgot to call
+`installDuoAIPanelHandlers()`, or X has no generated fixture yet and needs
+one added to the Ruby generator.
+
+**"Missing `MSW` fixture for X. Regenerate with ..."**
+The fixture for X is stale or missing on disk. Run the regenerate command
+from the Fixtures section above.
+
+**A test hangs on `waitFor` after sending a prompt**
+Usually one of two things: no checkpoint was ever pushed, or the checkpoint
+was pushed before `await waitForSocket()` resolved, so it was pushed to a
+socket that didn't exist yet.
+
+**A later test in the same file behaves strangely**
+Check that `teardownDuoChatTest()` is actually being called in `afterEach`.
+Stream manager state leaks across tests in the same file when it isn't.
+
+**Text you expect isn't there yet**
+Message content renders through markdown asynchronously. Assert with
+`waitFor` on the text itself, not on element counts, and not synchronously
+right after pushing a checkpoint.

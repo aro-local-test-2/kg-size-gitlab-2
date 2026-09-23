@@ -1,0 +1,25 @@
+# @feature_category: artifact_registry
+
+# The payload selects the whole repository so Apollo normalizes it onto the entry the
+# list already cached — `cache_config.js` keys the type on `name` — which is what
+# patches the repository in place without an explicit cache update.
+mutation updateArtifactRegistryRepository($input: ArtifactRegistryRepositoryUpdateInput!) {
+  updateRepository: artifactRegistryRepositoryUpdate(input: $input) {
+    repository {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      kind
+      visibility
+      description
+      settings {
+        url
+        cacheValidityHours
+        metadataCacheValidityHours
+        lastHealthStatus
+        lastHealthCheckedAt
+      }
+    }
+    errors
+  }
+}

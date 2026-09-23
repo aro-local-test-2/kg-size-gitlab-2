@@ -1,0 +1,37 @@
+# Local-only schema for the MTTR-over-time chart, standing in until the backend ships
+# `SecurityMetrics.mttrOverTime` (gitlab-org/gitlab#627141). Removed in #627163.
+# `extend`, because redeclaring the schema-owned `SecurityMetrics` type fails the Apollo
+# schema build; `VulnerabilitySeverity` and `VulnerabilityReportType` are real enums, so
+# they are referenced, not redefined.
+
+extend type SecurityMetrics {
+  mttrOverTime(
+    startDate: ISO8601Date!
+    endDate: ISO8601Date!
+    severity: [VulnerabilitySeverity!]
+  ): [MttrOverTimeBucket!]
+}
+
+type MttrOverTimeBucket {
+  startDate: ISO8601Date!
+  endDate: ISO8601Date!
+  sumDays: Float!
+  count: Int!
+  mttr: Float
+  bySeverity: [MttrOverTimeBySeverity!]!
+  byReportType: [MttrOverTimeByReportType!]!
+}
+
+type MttrOverTimeBySeverity {
+  severity: VulnerabilitySeverity!
+  sumDays: Float!
+  count: Int!
+  mttr: Float
+}
+
+type MttrOverTimeByReportType {
+  reportType: VulnerabilityReportType!
+  sumDays: Float!
+  count: Int!
+  mttr: Float
+}

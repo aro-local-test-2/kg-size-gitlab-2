@@ -1,0 +1,10 @@
+---
+name: approval_rules_finalize_bulk_copy_approvers
+description: Bulk inserts approvers when project approval rules are copied to a merge request on merge instead of validating every approver user record
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628868
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255631
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/629137
+milestone: '19.5'
+group: group::code review
+type: gitlab_com_derisk
+default_enabled: false

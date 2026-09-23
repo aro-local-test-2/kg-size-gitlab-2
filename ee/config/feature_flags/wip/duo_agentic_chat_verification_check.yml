@@ -1,0 +1,10 @@
+---
+name: duo_agentic_chat_verification_check
+description: Enables the agentic chat functional verification health check for GitLab Duo self-hosted models
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/602572
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/253398
+rollout_issue_url:
+milestone: '19.4'
+group: group::ai model services
+type: wip
+default_enabled: false

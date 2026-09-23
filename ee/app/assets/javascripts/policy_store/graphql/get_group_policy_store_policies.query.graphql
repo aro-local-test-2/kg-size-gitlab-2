@@ -1,0 +1,18 @@
+# @feature_category: security_policy_management
+
+#import "./govern_policy.fragment.graphql"
+
+query getGroupPolicyStorePolicies($fullPath: ID!, $ids: [Int!]) {
+  group(fullPath: $fullPath) {
+    id
+    policyStore {
+      policies(ids: $ids) {
+        ...GovernPolicy
+      }
+      triggers {
+        id
+        name
+      }
+    }
+  }
+}

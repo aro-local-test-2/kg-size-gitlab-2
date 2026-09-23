@@ -1,0 +1,6 @@
+%p
+  = safe_format(s_('AiFlowSchedules|The flow schedule "%{description}" in project %{project} has been deactivated after %{count} consecutive failures.'), description: @schedule.description, project: link_to(@project.full_name, project_url(@project)), count: @schedule.consecutive_failure_count)
+%p
+  = s_('AiFlowSchedules|Last error: %{error}') % { error: @schedule.last_run_error }
+%p
+  = s_('AiFlowSchedules|To resume scheduled flows, address the issue above and reactivate the schedule.')

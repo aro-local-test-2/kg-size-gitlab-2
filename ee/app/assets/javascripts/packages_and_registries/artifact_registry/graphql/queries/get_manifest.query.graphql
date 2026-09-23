@@ -1,0 +1,44 @@
+# @feature_category: artifact_registry
+
+query getArtifactRegistryManifest(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+  $digest: String!
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      kind
+      image(id: $artifactId) {
+        id
+        name
+      }
+      manifest(digest: $digest, artifactId: $artifactId) @client {
+        id
+        digest
+        mediaType
+        artifactType
+        subjectDigest
+        childrenCount
+        tags
+        size
+        createdAt
+        architecture
+        os
+        osVariant
+        children {
+          digest
+          architecture
+          os
+          osVariant
+        }
+        parentDigests
+        referrersCount
+      }
+    }
+  }
+}

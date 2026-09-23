@@ -1,0 +1,9 @@
+# @feature_category: continuous_delivery
+
+#import "./cd_rollout_gates.fragment.graphql"
+
+subscription cdRolloutGateUpdated($rolloutId: CdRolloutID!) {
+  cdRolloutGateUpdated(rolloutId: $rolloutId) {
+    ...CdRolloutGates
+  }
+}

@@ -1,0 +1,14 @@
+# @feature_category: knowledge_graph
+mutation knowledgeGraphExcludedNamespaceCreate(
+  $input: KnowledgeGraphExcludedNamespaceCreateInput!
+) {
+  knowledgeGraphExcludedNamespaceCreate(input: $input) {
+    group {
+      id
+      name
+      fullPath
+      avatarUrl
+    }
+    errors
+  }
+}

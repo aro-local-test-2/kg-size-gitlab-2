@@ -1,0 +1,7 @@
+# @feature_category: artifact_registry
+
+mutation disableArtifactRegistry {
+  disableRegistry: artifactRegistryDisable(input: {}) {
+    errors
+  }
+}

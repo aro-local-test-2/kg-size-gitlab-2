@@ -1,0 +1,16 @@
+# @feature_category: knowledge_graph
+query getKnowledgeGraphExcludedNamespaces($first: Int = 100, $after: String) {
+  knowledgeGraphExcludedNamespaces(first: $first, after: $after) @gl_introduced(version: "19.5.0") {
+    nodes {
+      id
+      name
+      fullPath
+      webPath
+      avatarUrl
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

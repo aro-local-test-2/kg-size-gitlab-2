@@ -1,0 +1,21 @@
+#import "ee/sidebar/queries/iteration.fragment.graphql"
+
+# @feature_category: team_planning
+query boardInheritedIterations($fullPath: ID!, $id: ID!, $isProject: Boolean = false) {
+  group(fullPath: $fullPath) @skip(if: $isProject) {
+    id
+    iterations(id: $id) {
+      nodes {
+        ...IterationFragment
+      }
+    }
+  }
+  project(fullPath: $fullPath) @include(if: $isProject) {
+    id
+    iterations(id: $id) {
+      nodes {
+        ...IterationFragment
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# @feature_category: knowledge_graph
+query getKnowledgeGraphExcludableNamespaces($search: String) {
+  groups(topLevelOnly: true, allAvailable: true, first: 20, sort: "name_asc", search: $search) {
+    nodes {
+      id
+      name
+      fullPath
+      avatarUrl
+    }
+  }
+}

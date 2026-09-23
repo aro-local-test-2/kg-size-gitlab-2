@@ -1,0 +1,10 @@
+# @feature_category: team_planning
+
+fragment WorkItemAgentPlanFragment on WorkItemWidgetAgentPlan {
+  type
+  content
+  contentHtml
+  aiPlanningEnabled
+  readinessScore @include(if: $includeReadinessScore)
+  generationStatus @gl_introduced(version: "19.4.0")
+}

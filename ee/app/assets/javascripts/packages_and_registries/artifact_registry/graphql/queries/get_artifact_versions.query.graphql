@@ -1,0 +1,47 @@
+# @feature_category: artifact_registry
+#import "ee/packages_and_registries/artifact_registry/graphql/fragments/listed_version.fragment.graphql"
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getArtifactRegistryArtifactVersions(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+  $sort: ArtifactRegistryVersionSort
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      package(id: $artifactId) {
+        ... on ArtifactRegistryMavenPackageDetails {
+          id
+          versions(sort: $sort, first: $first, last: $last, before: $before, after: $after) {
+            nodes {
+              ...ArtifactRegistryListedVersion
+            }
+            pageInfo {
+              ...PageInfo
+            }
+          }
+        }
+        ... on ArtifactRegistryNpmPackageDetails {
+          id
+          versions(sort: $sort, first: $first, last: $last, before: $before, after: $after) {
+            nodes {
+              ...ArtifactRegistryListedVersion
+            }
+            pageInfo {
+              ...PageInfo
+            }
+          }
+        }
+      }
+    }
+  }
+}

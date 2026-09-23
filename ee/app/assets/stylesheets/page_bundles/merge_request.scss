@@ -1,0 +1,22 @@
+@import '../../../../../app/assets/stylesheets/page_bundles/merge_request';
+
+:root {
+  --ai-overview-hero-border-color: var(--gl-color-purple-200);
+  --ai-overview-hero-background-color: var(--gl-color-purple-50);
+}
+
+// Palette tokens do not change with the colour mode, so the hero picks its own shades for dark.
+// stylelint-disable-next-line gitlab/no-gl-class
+:root.gl-dark {
+  --ai-overview-hero-border-color: var(--gl-color-purple-800);
+  --ai-overview-hero-background-color: var(--gl-color-purple-950);
+}
+
+.ai-overview-hero {
+  border: 1px solid var(--ai-overview-hero-border-color);
+  background: linear-gradient(
+    180deg,
+    var(--ai-overview-hero-background-color),
+    var(--gl-background-color-default)
+  );
+}

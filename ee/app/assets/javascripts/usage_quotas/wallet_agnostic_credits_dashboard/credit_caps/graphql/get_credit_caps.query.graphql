@@ -1,0 +1,9 @@
+# @feature_category: consumables_cost_management
+query getCreditCaps($namespacePath: ID) {
+  subscriptionUsage(namespacePath: $namespacePath) {
+    budgetCaps {
+      flatUserCap
+      flatUserCapEnabled
+    }
+  }
+}

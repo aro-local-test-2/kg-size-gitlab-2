@@ -1,0 +1,20 @@
+query rebaseQueryEE($projectPath: ID!, $iid: String!) {
+  project(fullPath: $projectPath) {
+    id
+    allowMergeOnSkippedPipeline
+    ciCdSettings {
+      mergeTrainsEnabled
+    }
+    mergeRequest(iid: $iid) {
+      id
+      rebaseInProgress
+      headPipeline {
+        id
+        project {
+          id
+          fullPath
+        }
+      }
+    }
+  }
+}

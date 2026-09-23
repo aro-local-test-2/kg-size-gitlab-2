@@ -1,0 +1,8 @@
+# @feature_category: consumables_cost_management
+mutation upsertFlatUserCap($input: UpsertFlatUserCapInput!) {
+  upsertFlatUserCap(input: $input) {
+    flatUserCap
+    flatUserCapEnabled
+    errors
+  }
+}

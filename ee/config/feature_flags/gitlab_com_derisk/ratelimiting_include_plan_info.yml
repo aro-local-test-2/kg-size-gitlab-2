@@ -1,0 +1,11 @@
+---
+name: ratelimiting_include_plan_info
+description: Emit the plan facts (requester_plan, target_namespace_plan, target_root_namespace_id)
+  on classified requests, so they can be switched on before any throttle flag moves
+feature_issue_url: https://gitlab.com/groups/gitlab-com/gl-infra/-/work_items/2122
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254941
+rollout_issue_url: https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/work_items/29681
+milestone: '19.5'
+group: group::tenant controls
+type: gitlab_com_derisk
+default_enabled: false

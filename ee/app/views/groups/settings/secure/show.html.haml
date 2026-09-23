@@ -1,0 +1,27 @@
+- title = s_('GroupSettings|Secure')
+- breadcrumb_title title
+- page_title title
+
+%h1.gl-sr-only= title
+
+= render 'groups/settings/dependency_firewall', expanded: true
+
+- if @group.root? && (secrets_manager_available_for_group?(@group) || allow_secrets_manager_namespace_enrollment?(@group))
+  - sm_heading = s_('SecretsManager|GitLab Secrets Manager')
+  = render ::Layouts::SettingsBlockComponent.new(sm_heading, id: 'js-secrets-manager-settings', expanded: true) do |c|
+    - c.with_heading do
+      %span.gl-inline-flex.gl-items-center.gl-gap-3
+        = sm_heading
+        = render Pajamas::BadgeComponent.new(_('New'), variant: :info)
+    - c.with_description do
+      -# The enrollment toggle only renders on SaaS (isNamespaceEnrollable = root? && .com); self-managed renders neither toggle, so the description must track that axis, not just the paid flag.
+      - if ::Gitlab::Saas.feature_available?(:gitlab_com_subscriptions)
+        - if ::Feature.enabled?(:secrets_manager_paid_experience, @group)
+          = s_('SecretsManager|Enable GitLab Secrets Manager for all groups and projects within this namespace.')
+        - else
+          = s_('SecretsManagerPermissions|Allow the secrets manager to be enabled in any project or subgroup in this group.')
+      - else
+        = s_('SecretsManagerPermissions|Store secrets in the secrets manager, which can then be fetched by any project in this group and its subgroups.')
+      = link_to _('Learn more.'), help_page_path('ci/secrets/secrets_manager/_index.md')
+    - c.with_body do
+      = render 'groups/settings/secret_manager', hide_inline_text: true

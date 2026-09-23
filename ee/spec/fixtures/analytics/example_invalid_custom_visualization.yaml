@@ -1,0 +1,8 @@
+---
+version: 1
+type: DoesNotExistType
+data:
+  type: usage_count
+  query:
+    metric: projects
+options: {}

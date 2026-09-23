@@ -1,0 +1,10 @@
+---
+name: duo_code_review_previous_discussions
+description: Pass previous review discussions to Duo Code Review so it does not repeat findings
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/608172
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/248748
+rollout_issue_url:
+milestone: '19.3'
+group: group::code review
+type: wip
+default_enabled: false

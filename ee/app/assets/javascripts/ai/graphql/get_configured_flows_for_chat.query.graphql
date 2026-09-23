@@ -1,0 +1,13 @@
+# @feature_category: duo_agent_platform
+query getConfiguredFlowsForChat($projectId: ProjectID!) {
+  aiCatalogConfiguredItems(projectId: $projectId, itemTypes: [FLOW]) {
+    nodes {
+      id
+      item {
+        id
+        name
+        description
+      }
+    }
+  }
+}

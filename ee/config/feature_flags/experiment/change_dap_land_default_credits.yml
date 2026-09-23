@@ -1,0 +1,9 @@
+---
+name: change_dap_land_default_credits
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/619294
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251439
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/619698
+milestone: '19.4'
+group: group::acquisition
+type: experiment
+default_enabled: false

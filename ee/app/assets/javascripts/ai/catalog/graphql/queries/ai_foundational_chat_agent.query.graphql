@@ -1,0 +1,24 @@
+# @feature_category: workflow_catalog
+
+query aiFoundationalChatAgent($reference: String!) {
+  aiFoundationalChatAgent(reference: $reference) {
+    id
+    name
+    description
+    reference
+    referenceWithVersion
+    version
+    avatarUrl
+    systemPrompt
+    visibility
+    flowConfig {
+      flowVersion
+    }
+    tools {
+      id
+      name
+      title
+      description
+    }
+  }
+}

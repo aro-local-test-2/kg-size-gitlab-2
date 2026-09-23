@@ -1,0 +1,10 @@
+---
+name: ingest_namespace_statistics_in_own_transaction
+description: Commits IngestVulnerabilityNamespaceStatistics in its own transaction so the root namespace row lock is not held across the ingestion slice
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/629996
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/256767
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/630183
+milestone: '19.5'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

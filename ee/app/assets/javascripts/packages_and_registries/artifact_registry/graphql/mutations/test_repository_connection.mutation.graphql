@@ -1,0 +1,13 @@
+# @feature_category: artifact_registry
+
+mutation testArtifactRegistryRepositoryConnection(
+  $input: ArtifactRegistryRepositoryTestConnectionInput!
+) {
+  testConnection: artifactRegistryRepositoryTestConnection(input: $input) {
+    passed
+    httpStatus
+    lastHealthStatus
+    lastHealthCheckedAt
+    errors
+  }
+}

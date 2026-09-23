@@ -1,0 +1,11 @@
+# @feature_category: continuous_delivery
+
+query cdApplicationName($id: CdApplicationID!) {
+  organization {
+    id
+    cdApplication(id: $id) {
+      id
+      name
+    }
+  }
+}

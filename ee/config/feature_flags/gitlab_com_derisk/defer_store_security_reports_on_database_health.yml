@@ -1,0 +1,10 @@
+---
+name: defer_store_security_reports_on_database_health
+description: Defers storing security reports when sec database health signals indicate high load
+feature_issue_url:
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255196
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628841
+milestone: '19.5'
+group: group::security foundations
+type: gitlab_com_derisk
+default_enabled: false

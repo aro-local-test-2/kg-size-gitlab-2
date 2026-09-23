@@ -1,0 +1,13 @@
+---
+name: duo_workflow_nono_sandbox
+description: >-
+  When enabled, DAP ambient flow commands are sandboxed with nono
+  (Landlock-based) instead of SRT/bubblewrap. nono needs no user namespace and
+  fails closed. Default disabled keeps the existing SRT path unchanged.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/605838
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252331
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/624259
+milestone: '19.5'
+group: group::agent foundations
+type: gitlab_com_derisk
+default_enabled: false

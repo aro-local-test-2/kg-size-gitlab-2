@@ -1,0 +1,26 @@
+#import "./work_item_agent_plan.fragment.graphql"
+
+# @feature_category: team_planning
+mutation updateWorkItemAgentPlan(
+  $input: WorkItemUpdateInput!
+  $useWorkItemFeatures: Boolean = false
+  $includeReadinessScore: Boolean = false
+) {
+  workItemUpdate(input: $input) {
+    workItem {
+      id
+      iid
+      widgets(onlyTypes: [AGENT_PLAN]) @skip(if: $useWorkItemFeatures) {
+        ... on WorkItemWidgetAgentPlan {
+          ...WorkItemAgentPlanFragment
+        }
+      }
+      features @include(if: $useWorkItemFeatures) {
+        agentPlan {
+          ...WorkItemAgentPlanFragment
+        }
+      }
+    }
+    errors
+  }
+}

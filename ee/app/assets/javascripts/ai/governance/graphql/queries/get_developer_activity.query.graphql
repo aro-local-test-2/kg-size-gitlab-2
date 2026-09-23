@@ -1,0 +1,40 @@
+# @feature_category: compliance_management
+query getDeveloperActivity(
+  $groupFullPath: ID!
+  $projectFullPath: ID!
+  $isProject: Boolean = false
+  $limit: Int
+  $agentClass: AiGovernanceAgentClass
+  $timeframe: AiGovernanceMetricsTimeframe
+) {
+  group(fullPath: $groupFullPath) @skip(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass, timeframe: $timeframe) {
+      topUsers(limit: $limit) {
+        sessionCount
+        user {
+          id
+          name
+          username
+          avatarUrl
+          webUrl
+        }
+      }
+    }
+  }
+  project(fullPath: $projectFullPath) @include(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass, timeframe: $timeframe) {
+      topUsers(limit: $limit) {
+        sessionCount
+        user {
+          id
+          name
+          username
+          avatarUrl
+          webUrl
+        }
+      }
+    }
+  }
+}

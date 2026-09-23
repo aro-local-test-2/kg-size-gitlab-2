@@ -1,0 +1,13 @@
+# @feature_category: continuous_delivery
+
+mutation cdVersionCreate($input: CdVersionCreateInput!) {
+  cdVersionCreate(input: $input) {
+    version {
+      id
+      name
+      createdAt
+      verified
+    }
+    errors
+  }
+}

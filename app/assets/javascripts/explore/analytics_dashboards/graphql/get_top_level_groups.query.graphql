@@ -1,0 +1,20 @@
+# @feature_category: custom_dashboards_foundation
+
+# The scope picker's starting point. `allAvailable: false` limits this to groups the user
+# belongs to.
+query getAnalyticsDashboardTopLevelGroups($after: String) {
+  groups(topLevelOnly: true, allAvailable: false, sort: "name_asc", first: 20, after: $after) {
+    nodes {
+      id
+      name
+      fullName
+      fullPath
+      projectsCount
+      descendantGroupsCount
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

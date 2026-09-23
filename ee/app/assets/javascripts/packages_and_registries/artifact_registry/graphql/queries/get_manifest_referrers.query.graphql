@@ -1,0 +1,38 @@
+# @feature_category: artifact_registry
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+# `manifest` is a real schema field now and cannot take a local argument addition, so only
+# `referrers` is `@client` here, and `first` sits on its own arguments: Apollo prunes a variable
+# only when the field marked `@client` itself uses it.
+query getArtifactRegistryManifestReferrers(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+  $digest: String!
+  $first: Int
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      manifest(digest: $digest, artifactId: $artifactId) {
+        id
+        referrers(first: $first) @client {
+          nodes {
+            id
+            digest
+            mediaType
+            artifactType
+            subjectDigest
+            createdAt
+          }
+          pageInfo {
+            ...PageInfo
+          }
+        }
+      }
+    }
+  }
+}

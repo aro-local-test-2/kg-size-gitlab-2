@@ -1,0 +1,40 @@
+# @feature_category: compliance_management
+query getProjectExposure(
+  $groupFullPath: ID!
+  $projectFullPath: ID!
+  $isProject: Boolean = false
+  $limit: Int
+  $agentClass: AiGovernanceAgentClass
+  $timeframe: AiGovernanceMetricsTimeframe
+) {
+  group(fullPath: $groupFullPath) @skip(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass, timeframe: $timeframe) {
+      topProjects(limit: $limit) {
+        sessionCount
+        project {
+          id
+          name
+          fullPath
+          nameWithNamespace
+          webUrl
+        }
+      }
+    }
+  }
+  project(fullPath: $projectFullPath) @include(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass, timeframe: $timeframe) {
+      topProjects(limit: $limit) {
+        sessionCount
+        project {
+          id
+          name
+          fullPath
+          nameWithNamespace
+          webUrl
+        }
+      }
+    }
+  }
+}

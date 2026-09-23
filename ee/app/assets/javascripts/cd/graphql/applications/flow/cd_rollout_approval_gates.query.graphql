@@ -1,0 +1,12 @@
+# @feature_category: continuous_delivery
+
+#import "./cd_rollout_gates.fragment.graphql"
+
+query cdRolloutApprovalGates($id: CdRolloutID!) {
+  organization {
+    id
+    cdRollout(id: $id) {
+      ...CdRolloutGates
+    }
+  }
+}

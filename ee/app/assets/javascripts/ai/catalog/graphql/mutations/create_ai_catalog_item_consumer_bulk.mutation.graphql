@@ -1,0 +1,6 @@
+# @feature_category: ai_catalog_curation
+mutation createAiCatalogItemConsumerBulk($input: AiCatalogItemConsumerBulkCreateInput!) {
+  aiCatalogItemConsumerBulkCreate(input: $input) {
+    errors
+  }
+}

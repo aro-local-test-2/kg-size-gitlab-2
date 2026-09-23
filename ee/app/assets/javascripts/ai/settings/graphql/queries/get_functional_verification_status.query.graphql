@@ -1,0 +1,8 @@
+# @feature_category: duo_agent_platform
+
+query getFunctionalVerificationStatus($checkType: FunctionalVerificationCheckType!) {
+  functionalVerificationStatus(checkType: $checkType) @gl_introduced(version: "19.5.0") {
+    state
+    updatedAt
+  }
+}

@@ -1,0 +1,10 @@
+---
+name: optimized_all_security_jobs_complete_check
+description: Checks only unfinished CI jobs in Ci::Pipeline#all_security_jobs_complete? instead of loading every job of the pipeline hierarchy and its job definition.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628409
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/255574
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/628409
+milestone: '19.5'
+group: group::vulnerability management
+type: gitlab_com_derisk
+default_enabled: false

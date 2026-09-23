@@ -1,0 +1,19 @@
+# @feature_category: continuous_delivery
+
+query cdApplication($id: CdApplicationID!) {
+  organization {
+    id
+    cdApplication(id: $id) {
+      id
+      name
+      description
+      lastDeployedAt
+      services {
+        count
+      }
+      environments {
+        count
+      }
+    }
+  }
+}

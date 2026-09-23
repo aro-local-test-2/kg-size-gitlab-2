@@ -1,0 +1,72 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Semgrep",
+          "version": "1.50.0",
+          "rules": [
+            {
+              "id": "sql-injection",
+              "shortDescription": {
+                "text": "Potential SQL injection vulnerability"
+              }
+            },
+            {
+              "id": "hardcoded-password",
+              "shortDescription": {
+                "text": "Hardcoded credentials detected"
+              },
+              "properties": {
+                "tags": [
+                  "CWE-798"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "sql-injection",
+          "level": "error",
+          "message": {
+            "text": "SQL injection found"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app/models/user.rb"
+                },
+                "region": {
+                  "startLine": 42
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "hardcoded-password",
+          "level": "error",
+          "message": {
+            "text": "Hardcoded password found"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "config/secrets.rb"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

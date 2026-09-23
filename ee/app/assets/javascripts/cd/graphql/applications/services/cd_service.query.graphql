@@ -1,0 +1,27 @@
+# @feature_category: continuous_delivery
+
+query cdService($id: CdServiceID!) {
+  organization {
+    id
+    cdService(id: $id) {
+      id
+      name
+      lastDeployedAt
+      artifactSources {
+        nodes {
+          id
+          sourceRef
+          versions {
+            nodes {
+              id
+              name
+              digest
+              reference
+              createdAt
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+# @feature_category: continuous_delivery
+
+query cdEnvironment($id: CdEnvironmentID!) {
+  organization {
+    id
+    cdEnvironment(id: $id) {
+      id
+      name
+      tier
+      applicationsCount
+      applications {
+        nodes {
+          servicesCount
+          application {
+            id
+            name
+            lastDeployedAt
+          }
+          serviceEnvironmentHealths {
+            nodes {
+              id
+              deployedVersions {
+                nodes {
+                  id
+                  name
+                  createdAt
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

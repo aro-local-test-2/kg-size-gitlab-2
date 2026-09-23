@@ -1,0 +1,4 @@
+status: rollout
+feature_flag: vue3_migrate_security_dashboard
+group: group::agentic security flows
+migration_issue: https://gitlab.com/gitlab-org/gitlab/-/work_items/607919

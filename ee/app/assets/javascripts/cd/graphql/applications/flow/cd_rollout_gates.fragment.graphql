@@ -1,0 +1,22 @@
+fragment CdRolloutGates on CdRollout {
+  id
+  gates {
+    id
+    state
+    name
+    reason
+    resolutionReason
+    resolvedAt
+    resolvedBy {
+      id
+      username
+    }
+    step {
+      id
+      environment {
+        id
+        name
+      }
+    }
+  }
+}

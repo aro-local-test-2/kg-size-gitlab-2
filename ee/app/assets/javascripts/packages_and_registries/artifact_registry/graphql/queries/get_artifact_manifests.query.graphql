@@ -1,0 +1,47 @@
+# @feature_category: artifact_registry
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query getArtifactRegistryArtifactManifests(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $artifactId: ID!
+  $sort: ArtifactRegistryManifestSort
+  $includeReferrers: Boolean
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+) {
+  organization(id: $organizationId) {
+    id
+    artifactRegistryRepository(name: $name) {
+      id @gl_introduced(version: "19.5.0")
+      name
+      format
+      image(id: $artifactId) {
+        id
+        manifests(
+          sort: $sort
+          includeReferrers: $includeReferrers
+          first: $first
+          last: $last
+          before: $before
+          after: $after
+        ) {
+          nodes {
+            id
+            digest
+            mediaType
+            artifactType
+            subjectDigest
+            size
+            createdAt
+          }
+          pageInfo {
+            ...PageInfo
+          }
+        }
+      }
+    }
+  }
+}

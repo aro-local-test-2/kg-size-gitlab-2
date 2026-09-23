@@ -1,0 +1,29 @@
+# @feature_category: compliance_management
+query getConnectedAgents(
+  $groupFullPath: ID!
+  $projectFullPath: ID!
+  $isProject: Boolean = false
+  $limit: Int
+  $agentClass: AiGovernanceAgentClass
+) {
+  group(fullPath: $groupFullPath) @skip(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass) {
+      connectedAgents(limit: $limit) {
+        agentType
+        activeCount
+        userCount
+      }
+    }
+  }
+  project(fullPath: $projectFullPath) @include(if: $isProject) {
+    id
+    aiGovernanceMetrics(agentClass: $agentClass) {
+      connectedAgents(limit: $limit) {
+        agentType
+        activeCount
+        userCount
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+---
+version: 1
+type: BarChart
+options:
+  xAxis:
+    name: Suggestions accepted
+    type: value
+  yAxis:
+    name: Language
+    type: category
+data:
+  type: code_suggestions_acceptance_by_language
+  query: {}

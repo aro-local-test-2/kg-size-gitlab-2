@@ -1,0 +1,28 @@
+#import "~/graphql_shared/fragments/user.fragment.graphql"
+
+# The create and archive mutations write their results straight into the list the query cached, so
+# all three have to select the same fields. One shared fragment is what stops them drifting apart.
+fragment Decision on WorkItemDecision {
+  id
+  title
+  description
+  resolutionRationale
+  resolvedAt
+  state
+  noteUrl
+  discussionId
+  sourceLink
+  author {
+    ...User
+  }
+  resolvedBy {
+    ...User
+  }
+  options {
+    nodes {
+      id
+      content
+      selected
+    }
+  }
+}

@@ -1,0 +1,19 @@
+query getAiChatContextPresets(
+  $resourceId: AiModelID
+  $projectId: ProjectID
+  $namespaceId: NamespaceID
+  $url: String
+  $questionCount: Int
+  $foundationalAgentReference: String
+) {
+  aiChatContextPresets(
+    resourceId: $resourceId
+    projectId: $projectId
+    namespaceId: $namespaceId
+    url: $url
+    questionCount: $questionCount
+    foundationalAgentReference: $foundationalAgentReference
+  ) {
+    questions
+  }
+}

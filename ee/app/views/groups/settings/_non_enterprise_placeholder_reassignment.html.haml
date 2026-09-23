@@ -1,0 +1,15 @@
+- return unless Feature.enabled?(:setting_allow_non_enterprise_placeholder_reassignment, group)
+- return unless group.enterprise_user_settings_available?(current_user)
+
+%h5= s_('UserMapping|Non-enterprise placeholder reassignment')
+
+.form-group.gl-mb-3
+  = f.gitlab_ui_checkbox_component :allow_non_enterprise_placeholder_reassignment,
+      s_('UserMapping|Allow reassigning placeholder users to non-enterprise members'),
+      checkbox_options: { checked: group.namespace_settings&.allow_non_enterprise_placeholder_reassignment? } do |c|
+    - c.with_help_text do
+      = s_('UserMapping|When importing, contributions are usually reassigned only to enterprise users in this group. Enabling this setting also allows reassigning to any other existing member of this group, its subgroups, or its projects. It never exposes other GitLab.com users.')
+
+  = render Pajamas::AlertComponent.new(variant: :warning, dismissible: false, alert_options: { class: 'gl-mb-3' }) do |c|
+    - c.with_body do
+      = s_("UserMapping|Reassigning contributions to the wrong person cannot be undone. Only enable this setting if you're comfortable with contributions being reassigned to any member of this group, its subgroups, or its projects -- not just verified enterprise users.")

@@ -1,0 +1,30 @@
+# @feature_category: security_policy_management
+
+mutation governPolicyCreate(
+  $organizationId: OrganizationsOrganizationID!
+  $name: String!
+  $description: String
+  $triggerType: String!
+  $rules: [JSON!]!
+  $actions: [JSON!]
+  $policyScope: JSON
+  $mode: String
+) {
+  governPolicyCreate(
+    input: {
+      organizationId: $organizationId
+      name: $name
+      description: $description
+      triggerType: $triggerType
+      rules: $rules
+      actions: $actions
+      policyScope: $policyScope
+      mode: $mode
+    }
+  ) {
+    policy {
+      id
+    }
+    errors
+  }
+}

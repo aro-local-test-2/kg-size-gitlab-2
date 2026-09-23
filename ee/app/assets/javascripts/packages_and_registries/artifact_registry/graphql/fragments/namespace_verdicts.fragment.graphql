@@ -1,0 +1,9 @@
+fragment ArtifactRegistryNamespaceVerdicts on ArtifactRegistryNamespacePermissions {
+  readRepository
+  createRepository
+  updateRepository
+  deleteRepository
+  createRepositoryUpstream
+  updateRepositoryUpstream
+  deleteRepositoryUpstream
+}

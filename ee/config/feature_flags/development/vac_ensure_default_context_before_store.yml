@@ -1,0 +1,10 @@
+---
+name: vac_ensure_default_context_before_store
+description: Ensures a VAC default-branch tracked context exists before the store phase, so stored and ingested findings agree on the context-aware UUID scheme
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/612930
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/251594
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/613547
+milestone: '19.4'
+group: group::security foundations
+type: development
+default_enabled: false

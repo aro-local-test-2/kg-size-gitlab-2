@@ -1,0 +1,44 @@
+# @feature_category: consumables_cost_management
+
+# Filter-scoped query. Dashboard-level fields (`enabled`, `isOutdatedClient`)
+# and the billing-period total come from `get_billing_period_usage` instead.
+query getUserCreditsUsage(
+  $namespacePath: ID!
+  $startDate: ISO8601Date
+  $endDate: ISO8601Date
+  $flowTypes: [String!]
+) {
+  currentUser {
+    id
+    creditsUsage(
+      namespacePath: $namespacePath
+      startDate: $startDate
+      endDate: $endDate
+      flowTypes: $flowTypes
+    ) {
+      startDate
+      endDate
+
+      creditsUsed
+
+      dailyUsage {
+        date
+        creditsUsed
+      }
+
+      products {
+        id
+        title
+        flowTypes {
+          id
+          title
+        }
+      }
+
+      blockedStatus {
+        blocked
+        capType
+      }
+    }
+  }
+}

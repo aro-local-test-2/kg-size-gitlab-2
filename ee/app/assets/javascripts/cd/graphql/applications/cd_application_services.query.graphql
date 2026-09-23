@@ -1,0 +1,29 @@
+# @feature_category: continuous_delivery
+
+#import "~/graphql_shared/fragments/page_info.fragment.graphql"
+
+query cdApplicationServices(
+  $id: CdApplicationID!
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+  $search: String
+) {
+  organization {
+    id
+    cdApplication(id: $id) {
+      id
+      services(first: $first, after: $after, last: $last, before: $before, search: $search) {
+        nodes {
+          id
+          name
+          lastDeployedAt
+        }
+        pageInfo {
+          ...PageInfo
+        }
+      }
+    }
+  }
+}

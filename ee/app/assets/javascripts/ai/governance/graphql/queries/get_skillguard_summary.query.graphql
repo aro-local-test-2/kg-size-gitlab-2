@@ -1,0 +1,65 @@
+# @feature_category: compliance_management
+query getSkillguardSummary(
+  $groupFullPath: ID!
+  $projectFullPath: ID!
+  $isProject: Boolean = false
+  $scanner: [String!]
+  $limit: Int = 5
+) {
+  group(fullPath: $groupFullPath) @skip(if: $isProject) {
+    id
+    vulnerabilitySeveritiesCount(scanner: $scanner, state: [DETECTED, CONFIRMED]) {
+      critical
+      high
+      medium
+      low
+      unknown
+      info
+    }
+    vulnerabilities(
+      scanner: $scanner
+      state: [DETECTED, CONFIRMED]
+      sort: severity_desc
+      first: $limit
+    ) {
+      nodes {
+        id
+        title
+        severity
+        vulnerabilityPath
+        project {
+          id
+          name
+        }
+      }
+    }
+  }
+  project(fullPath: $projectFullPath) @include(if: $isProject) {
+    id
+    vulnerabilitySeveritiesCount(scanner: $scanner, state: [DETECTED, CONFIRMED]) {
+      critical
+      high
+      medium
+      low
+      unknown
+      info
+    }
+    vulnerabilities(
+      scanner: $scanner
+      state: [DETECTED, CONFIRMED]
+      sort: severity_desc
+      first: $limit
+    ) {
+      nodes {
+        id
+        title
+        severity
+        vulnerabilityPath
+        project {
+          id
+          name
+        }
+      }
+    }
+  }
+}

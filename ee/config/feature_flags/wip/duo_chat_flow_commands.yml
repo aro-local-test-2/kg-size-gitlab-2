@@ -1,0 +1,10 @@
+---
+name: duo_chat_flow_commands
+description: When enabled, Duo Agentic Chat offers a slash command for each AI Catalog flow enabled in the current project, which starts the flow directly.
+feature_issue_url: https://gitlab.com/gitlab-org/gitlab/-/work_items/605161
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/252920
+rollout_issue_url:
+milestone: '19.4'
+group: group::ai catalog
+type: wip
+default_enabled: false

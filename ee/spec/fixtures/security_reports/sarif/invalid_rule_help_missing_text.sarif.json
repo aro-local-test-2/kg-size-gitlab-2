@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Example Linter",
+          "informationUri": "https://example.test/linter",
+          "rules": [
+            {
+              "id": "example-rule-1",
+              "shortDescription": {
+                "text": "Use a strong cipher algorithm."
+              },
+              "help": {
+                "markdown": "Use a strong cipher algorithm."
+              },
+              "properties": {
+                "security-severity": "8.5"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "example-rule-1",
+          "message": {
+            "text": "Weak cipher algorithm detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/example.txt"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

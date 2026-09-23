@@ -1,0 +1,11 @@
+---
+name: duo_chat_goal_command
+description: When enabled, Duo Agentic Chat offers the /goal slash command, which
+  starts a long-running goal the chat keeps working toward.
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/23107
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254436
+rollout_issue_url: https://gitlab.com/gitlab-org/gitlab/-/issues/628226
+milestone: '19.4'
+group: group::duo chat
+type: wip
+default_enabled: false

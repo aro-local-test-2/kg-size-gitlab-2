@@ -1,0 +1,32 @@
+# @feature_category: ai_catalog_curation
+query getDashboardConfiguredAgents(
+  $itemTypes: [AiCatalogItemType!]
+  $groupId: GroupID
+  $projectId: ProjectID
+  $includeFoundationalConsumers: Boolean
+  $first: Int
+  $sort: AiCatalogConfiguredItemsSort
+) {
+  aiCatalogConfiguredItems(
+    itemTypes: $itemTypes
+    groupId: $groupId
+    projectId: $projectId
+    includeFoundationalConsumers: $includeFoundationalConsumers
+    first: $first
+    sort: $sort
+  ) {
+    nodes {
+      id
+      item {
+        id
+        name
+        itemType
+        description
+        project {
+          id
+          nameWithNamespace
+        }
+      }
+    }
+  }
+}

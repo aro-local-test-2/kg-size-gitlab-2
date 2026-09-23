@@ -1,0 +1,11 @@
+# @feature_category: artifact_registry
+
+mutation testArtifactRegistryUpstreamConnection(
+  $input: ArtifactRegistryUpstreamTestConnectionInput!
+) {
+  testConnection: artifactRegistryUpstreamTestConnection(input: $input) {
+    passed
+    httpStatus
+    errors
+  }
+}

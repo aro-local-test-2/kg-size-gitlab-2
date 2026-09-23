@@ -1,0 +1,19 @@
+fragment GovernPolicy on GovernPolicy {
+  id
+  organizationId
+  namespaceId
+  name
+  description
+  version
+  triggerType
+  rules
+  policyRego
+  actions
+  policyScope
+  scopeRego
+  scopeDimensions
+  mode
+  lifecycleState
+  createdAt
+  updatedAt
+}

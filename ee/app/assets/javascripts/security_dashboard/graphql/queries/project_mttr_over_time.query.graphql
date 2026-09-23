@@ -1,0 +1,35 @@
+# @feature_category: vulnerability_management
+query projectMttrOverTime(
+  $fullPath: ID!
+  $reportType: [VulnerabilityReportType!]
+  $startDate: ISO8601Date!
+  $endDate: ISO8601Date!
+  $severity: [VulnerabilitySeverity!]
+  $trackedRefIds: [SecurityProjectTrackedContextID!]
+) {
+  namespace: project(fullPath: $fullPath) {
+    id
+    securityMetrics(reportType: $reportType, trackedRefIds: $trackedRefIds) {
+      __typename
+      mttrOverTime(startDate: $startDate, endDate: $endDate, severity: $severity) @client {
+        startDate
+        endDate
+        sumDays
+        count
+        mttr
+        bySeverity {
+          severity
+          sumDays
+          count
+          mttr
+        }
+        byReportType {
+          reportType
+          sumDays
+          count
+          mttr
+        }
+      }
+    }
+  }
+}

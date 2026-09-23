@@ -1,0 +1,10 @@
+---
+name: duo_code_review_on_push
+description: Start a new Duo Code Review when a merge request receives a push
+feature_issue_url: https://gitlab.com/groups/gitlab-org/-/work_items/21620
+introduced_by_url: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/254523
+rollout_issue_url:
+milestone: '19.5'
+group: group::code review
+type: wip
+default_enabled: false

@@ -1,0 +1,25 @@
+#import "./scan_profile.fragment.graphql"
+
+# @feature_category: security_testing_configuration
+mutation SecurityScanProfileCreate($input: SecurityScanProfileCreateInput!) {
+  securityScanProfileCreate(input: $input) {
+    clientMutationId
+    errors
+    scanProfile {
+      ...ScanProfileFields
+      triggerSettings {
+        triggerType
+        configuration {
+          ... on SecretDetectionConfiguration {
+            secureAnalyzersPrefix
+            imageSuffix
+            historicScan
+            logOptions
+            excludedPaths
+            rulesetGitReference
+          }
+        }
+      }
+    }
+  }
+}

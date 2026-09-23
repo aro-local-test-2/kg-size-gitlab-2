@@ -1,0 +1,15 @@
+- data = project_access_token_upgrade_card_data(project)
+
+.gl-my-6
+  = render Pajamas::CardComponent.new(card_options: { data: { testid: 'project-access-token-upgrade-card' } }) do |c|
+    - c.with_body do
+      %h4.gl-mt-0.gl-mb-3.gl-text-base= s_('AccessTokens|Try project access tokens with Premium')
+      %p.gl-mb-5
+        - docs_link = link_to('', data[:docs_url], target: '_blank', rel: 'noopener noreferrer')
+        = safe_format(s_('AccessTokens|%{link_start}Project access token%{link_end} creation is not available on GitLab Free. Upgrade to Premium to create a token scoped to a project.'), tag_pair(docs_link, :link_start, :link_end))
+      .gl-flex.gl-gap-3
+        = render Pajamas::ButtonComponent.new(variant: :confirm, href: data[:upgrade_url], button_options: { data: { event_tracking: 'click_upgrade_to_premium_on_project_access_tokens' } }) do
+          = s_('AccessTokens|Upgrade to Premium')
+        = render Pajamas::ButtonComponent.new(href: data[:explore_plans_url], button_options: { data: { event_tracking: 'click_explore_plans_on_project_access_tokens' } }) do
+          = s_('AccessTokens|Explore plans')
+      %p.gl-mt-4.gl-mb-0.gl-text-sm.gl-text-subtle= s_('AccessTokens|You can still manage existing tokens.')
